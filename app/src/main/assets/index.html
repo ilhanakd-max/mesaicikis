@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>İş Çıkış Saatlerim</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --bg-dark: #0f0f23;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --bg-card-hover: rgba(255, 255, 255, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.5);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --border-radius: 16px;
+            --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --shadow-glow: 0 0 40px rgba(102, 126, 234, 0.3);
+            --success-color: #00d26a;
+            --danger-color: #ff6b6b;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(102, 126, 234, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(118, 75, 162, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(79, 172, 254, 0.1) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            width: 100%;
+            max-width: 420px;
+            padding: 35px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-soft), var(--shadow-glow);
+            height: fit-content;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), 0 0 60px rgba(102, 126, 234, 0.4);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0 0 8px 0;
+            letter-spacing: -0.5px;
+        }
+
+        p.subtitle {
+            font-size: 0.95em;
+            color: var(--text-secondary);
+            margin: 0;
+            font-weight: 300;
+        }
+
+        .days-wrapper {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+        }
+
+        .day-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            background: var(--bg-card);
+            border: 1px solid transparent;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .day-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .day-row:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(102, 126, 234, 0.3);
+            transform: translateX(4px);
+        }
+
+        .day-label {
+            font-weight: 600;
+            font-size: 1em;
+            color: var(--text-primary);
+            letter-spacing: 0.3px;
+        }
+
+        input[type="time"] {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 1em;
+            font-family: inherit;
+            color: var(--text-primary);
+            outline: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        input[type="time"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            opacity: 0.6;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        input[type="time"]::-webkit-calendar-picker-indicator:hover {
+            opacity: 1;
+        }
+
+        input[type="time"]:focus {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+
+        input[type="time"]:hover {
+            border-color: rgba(102, 126, 234, 0.5);
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        button {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: inherit;
+            letter-spacing: 0.3px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        .btn-reset {
+            background: var(--secondary-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3);
+        }
+
+        .btn-reset:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+        }
+
+        .btn-reset:active {
+            transform: translateY(0);
+        }
+
+        .btn-save-indicator {
+            background: var(--success-color);
+            color: white;
+            display: none;
+            box-shadow: 0 4px 15px rgba(0, 210, 106, 0.3);
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            20% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-gradient);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-size: 0.95em;
+            font-weight: 600;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 100;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+            letter-spacing: 0.5px;
+        }
+
+        .toast.show {
+            animation: fadeInOut 2s forwards;
+        }
+
+        .icon-decoration {
+            position: absolute;
+            font-size: 3em;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .icon-1 { top: -20px; right: -20px; transform: rotate(15deg); }
+        .icon-2 { bottom: -20px; left: -20px; transform: rotate(-15deg); }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            
+            .container {
+                padding: 25px 20px;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            .day-row {
+                padding: 12px 14px;
+            }
+
+            .day-label {
+                font-size: 0.95em;
+            }
+
+            input[type="time"] {
+                padding: 8px 12px;
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="icon-decoration icon-1">⏰</div>
+        <div class="icon-decoration icon-2">📅</div>
+        
+        <div class="header">
+            <h2>Çıkış Saati Takip</h2>
+            <p class="subtitle">Saatleri gir, otomatik kaydedilsin ✨</p>
+        </div>
+        
+        <div class="days-wrapper" id="days-container">
+        </div>
+
+        <div class="btn-container">
+            <button class="btn-reset" onclick="confirmReset()">
+                <span style="margin-right: 8px;">🔄</span>Yeni Hafta
+            </button>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">✓ Kaydedildi!</div>
+
+    <script>
+        const days = [
+            "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"
+        ];
+        
+        const container = document.getElementById('days-container');
+        const STORAGE_KEY = 'haftalik_cikis_saatleri';
+
+        // 1. Sayfa yüklendiğinde verileri çek ve arayüzü oluştur
+        window.onload = function() {
+            renderDays();
+            loadData();
+        };
+
+        // Arayüzü oluşturma fonksiyonu
+        function renderDays() {
+            container.innerHTML = '';
+            days.forEach((day, index) => {
+                const div = document.createElement('div');
+                div.className = 'day-row';
+                
+                const label = document.createElement('label');
+                label.className = 'day-label';
+                label.innerText = day;
+                label.setAttribute('for', 'day-' + index);
+
+                const input = document.createElement('input');
+                input.type = 'time';
+                input.id = 'day-' + index;
+                input.dataset.dayIndex = index;
+                
+                // Her değişiklikte kaydet
+                input.addEventListener('change', (e) => {
+                    saveData(index, e.target.value);
+                });
+
+                div.appendChild(label);
+                div.appendChild(input);
+                container.appendChild(div);
+            });
+        }
+
+        // Veriyi LocalStorage'a kaydetme
+        function saveData(index, value) {
+            let data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+            data[index] = value;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            showToast();
+        }
+
+        // Veriyi LocalStorage'dan çekme
+        function loadData() {
+            const data = JSON.parse(localStorage.getItem(STORAGE_KEY));
+            if (data) {
+                Object.keys(data).forEach(key => {
+                    const input = document.getElementById('day-' + key);
+                    if (input) {
+                        input.value = data[key];
+                    }
+                });
+            }
+        }
+
+        // Verileri Sıfırlama (Yeni Hafta)
+        function confirmReset() {
+            if(confirm("Tüm saatler silinecek ve yeni haftaya başlanacak. Emin misin?")) {
+                localStorage.removeItem(STORAGE_KEY);
+                // Inputları temizle
+                const inputs = document.querySelectorAll('input[type="time"]');
+                inputs.forEach(input => input.value = '');
+            }
+        }
+
+        // "Kaydedildi" bildirimi
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('show');
+            void toast.offsetWidth; // Animasyonu resetlemek için hack
+            toast.classList.add('show');
+        }
+    </script>
+
+</body>
+</html>
