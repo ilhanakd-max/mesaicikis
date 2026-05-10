@@ -4,329 +4,158 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>İş Çıkış Saatlerim</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --bg-dark: #0f0f23;
-            --bg-card: rgba(255, 255, 255, 0.05);
-            --bg-card-hover: rgba(255, 255, 255, 0.08);
-            --text-primary: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.7);
-            --text-muted: rgba(255, 255, 255, 0.5);
-            --border-color: rgba(255, 255, 255, 0.1);
-            --border-radius: 16px;
-            --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.3);
-            --shadow-glow: 0 0 40px rgba(102, 126, 234, 0.3);
-            --success-color: #00d26a;
-            --danger-color: #ff6b6b;
-        }
-
-        * {
-            box-sizing: border-box;
+            --primary-color: #4a90e2;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333;
+            --border-radius: 12px;
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-dark);
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(102, 126, 234, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(118, 75, 162, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(79, 172, 254, 0.1) 0px, transparent 50%);
-            background-attachment: fixed;
-            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             margin: 0;
             padding: 20px;
             display: flex;
             justify-content: center;
-            align-items: center;
             min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 0;
         }
 
         .container {
-            background: var(--bg-card);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background-color: var(--card-bg);
             width: 100%;
-            max-width: 420px;
-            padding: 35px;
+            max-width: 400px;
+            padding: 25px;
             border-radius: var(--border-radius);
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-soft), var(--shadow-glow);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             height: fit-content;
-            position: relative;
-            z-index: 1;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .container:hover {
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), 0 0 60px rgba(102, 126, 234, 0.4);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            position: relative;
         }
 
         h2 {
-            font-size: 1.8em;
-            font-weight: 700;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin: 0 0 8px 0;
-            letter-spacing: -0.5px;
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            margin-top: 0;
         }
 
         p.subtitle {
-            font-size: 0.95em;
-            color: var(--text-secondary);
-            margin: 0;
-            font-weight: 300;
-        }
-
-        .days-wrapper {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 12px;
-            padding: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
             margin-bottom: 25px;
-            border: 1px solid var(--border-color);
         }
 
         .day-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 14px 16px;
-            margin-bottom: 8px;
-            border-radius: 10px;
-            background: var(--bg-card);
-            border: 1px solid transparent;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
         }
 
-        .day-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .day-row:hover {
-            background: var(--bg-card-hover);
-            border-color: rgba(102, 126, 234, 0.3);
-            transform: translateX(4px);
+        .day-row:last-of-type {
+            border-bottom: none;
+            margin-bottom: 20px;
         }
 
         .day-label {
             font-weight: 600;
-            font-size: 1em;
-            color: var(--text-primary);
-            letter-spacing: 0.3px;
+            font-size: 1.1em;
         }
 
         input[type="time"] {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 10px 14px;
-            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 1.1em;
             font-family: inherit;
-            color: var(--text-primary);
+            color: var(--primary-color);
+            background: #f9f9f9;
             outline: none;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        input[type="time"]::-webkit-calendar-picker-indicator {
-            filter: invert(1);
-            opacity: 0.6;
-            cursor: pointer;
-            transition: opacity 0.3s;
-        }
-
-        input[type="time"]::-webkit-calendar-picker-indicator:hover {
-            opacity: 1;
+            transition: all 0.2s;
         }
 
         input[type="time"]:focus {
-            border-color: #667eea;
-            background: rgba(102, 126, 234, 0.1);
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
-        }
-
-        input[type="time"]:hover {
-            border-color: rgba(102, 126, 234, 0.5);
+            border-color: var(--primary-color);
+            background: #fff;
         }
 
         .btn-container {
             display: flex;
-            gap: 12px;
-            margin-top: 10px;
+            gap: 10px;
+            margin-top: 20px;
         }
 
         button {
             flex: 1;
-            padding: 14px 20px;
+            padding: 12px;
             border: none;
-            border-radius: 12px;
-            font-size: 0.95em;
+            border-radius: 8px;
+            font-size: 1em;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-family: inherit;
-            letter-spacing: 0.3px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        button:hover::before {
-            left: 100%;
+            transition: opacity 0.2s;
         }
 
         .btn-reset {
-            background: var(--secondary-gradient);
+            background-color: #ff6b6b;
             color: white;
-            box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3);
         }
-
-        .btn-reset:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
-        }
-
-        .btn-reset:active {
-            transform: translateY(0);
-        }
-
+        
         .btn-save-indicator {
-            background: var(--success-color);
+            background-color: #51cf66;
             color: white;
-            display: none;
-            box-shadow: 0 4px 15px rgba(0, 210, 106, 0.3);
+            display: none; /* JS ile gösterilecek */
         }
 
+        /* Kaydedildi animasyonu */
         @keyframes fadeInOut {
-            0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
-            20% { opacity: 1; transform: translateX(-50%) translateY(0); }
-            80% { opacity: 1; transform: translateX(-50%) translateY(0); }
-            100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            0% { opacity: 0; transform: translateY(10px); }
+            20% { opacity: 1; transform: translateY(0); }
+            80% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-10px); }
         }
 
         .toast {
             position: fixed;
-            bottom: 30px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: var(--primary-gradient);
+            background: rgba(0,0,0,0.8);
             color: white;
-            padding: 12px 28px;
-            border-radius: 30px;
-            font-size: 0.95em;
-            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.9em;
             pointer-events: none;
             opacity: 0;
             z-index: 100;
-            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
-            letter-spacing: 0.5px;
         }
 
         .toast.show {
             animation: fadeInOut 2s forwards;
         }
 
-        .icon-decoration {
-            position: absolute;
-            font-size: 3em;
-            opacity: 0.1;
-            pointer-events: none;
-        }
-
-        .icon-1 { top: -20px; right: -20px; transform: rotate(15deg); }
-        .icon-2 { bottom: -20px; left: -20px; transform: rotate(-15deg); }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 15px;
-            }
-            
-            .container {
-                padding: 25px 20px;
-            }
-
-            h2 {
-                font-size: 1.5em;
-            }
-
-            .day-row {
-                padding: 12px 14px;
-            }
-
-            .day-label {
-                font-size: 0.95em;
-            }
-
-            input[type="time"] {
-                padding: 8px 12px;
-                font-size: 0.95em;
-            }
-        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="icon-decoration icon-1">⏰</div>
-        <div class="icon-decoration icon-2">📅</div>
+        <h2>Çıkış Saati Takip</h2>
+        <p class="subtitle">Saatleri gir, otomatik kaydedilsin.</p>
         
-        <div class="header">
-            <h2>Çıkış Saati Takip</h2>
-            <p class="subtitle">Saatleri gir, otomatik kaydedilsin ✨</p>
-        </div>
-        
-        <div class="days-wrapper" id="days-container">
-        </div>
+        <div id="days-container">
+            </div>
 
         <div class="btn-container">
-            <button class="btn-reset" onclick="confirmReset()">
-                <span style="margin-right: 8px;">🔄</span>Yeni Hafta
-            </button>
+            <button class="btn-reset" onclick="confirmReset()">Yeni Hafta (Temizle)</button>
         </div>
     </div>
 
-    <div id="toast" class="toast">✓ Kaydedildi!</div>
+    <div id="toast" class="toast">Kaydedildi!</div>
 
     <script>
         const days = [
